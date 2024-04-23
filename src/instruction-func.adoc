@@ -1,0 +1,154 @@
+[[insfunc]]
+== Instruction description
+
+AI extension instructions are divided into two categories based on their functionality: dot-product matrix multiply-accumulate (MAC) instructions and sliding-window dot-product MAC instructions. Different values of VLEN (Vector Length) and SEW (Standard Element Width) correspond to different MAC arrays.
+
+=== Dot-product matrix multiply-accumulate instructions
+
+Dot-product multiply-accumulate (MAC) instructions can be divided into integer dot-product MAC instructions and floating-point dot-product MAC instructions. During MAC computation, the arrangement of input and output data in registers is as follows: with copy set to 1, the input A in VS1 is treated as a matrix with M rows and K columns, while the input B in VS2 is treated as a matrix with K rows and N columns. The result C will be placed in two consecutive registers (the index of VD(L) must be even), and its elements will be treated as an M by N matrix. For example, with VLEN=256 and SEW=8, the arrangement is as follows:
+
+image:matrix-multiply-0.png[matrix-multiply-0.png]
+
+At this time, the MAC array is of size 4x4x8, corresponding to the input matrix A being (4, 8) and B being (8, 4). After matrix multiplication, the resulting matrix C is of size (4, 4).
+
+When copy is set to 2, the input A in VS1 is treated as two matrices, each with M rows and K columns, while the input B in VS2 is treated as two matrices, each with K rows and N columns. The result consists of two matrices, each with M rows and N columns, which are placed in two consecutive registers (the index of VD(L) must be even). For example, with VLEN=512 and SEW=8, the arrangement would be as described.
+
+image:matrix-multiply-1.png[matrix-multiply-1.png]
+
+Dot-product matrix multiply-accumulate instructions take matrix A and matrix B as input, and put the accumulate the multiplication result of A and B to C.
+
+* shape of A: M rows, K columns [x Copies]
+* shape of B: K rows, N columns [x Copies]
+* shape of C: M rows, N columns [x Copies]
+
+TIP: The value of Copies can be either 1 or 2, Copies=(sqrt(VLEN/64) == floor(sqrt(VLEN/64)) ? 1 : 2)
+
+The function description:
+....
+Copies=(sqrt(VLEN/64) == floor(sqrt(VLEN/64)) ? 1 : 2)
+for (cp = 0; cp < Copies; cp++) {
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < N; j ++) {
+            for (k = 0; k < K; k++) {
+                C[cp * M * N + i * N + j] +=
+                    A[cp * M * K + i * N + k] * B[cp * K *N + k * N + j];
+                }
+             }
+         }
+     }
+ }
+....
+
+[width="100%",cols="2,2,3,3,3",options="header",]
+|===
+|category | instructions | Operand Type A | Operand Type B | Accumulator Type C .4+^.|
+Int | 
+vmadot   | int4/int8/int16 | int4/int8/int16 | int32/int32/fp32 |  
+vmadotu  | uint4/uint8/uint16 | uint4/uint8/uint16 | int32/int32/fp32 |  
+vmadotsu | int4/int8/int16 | uint4/uint8/uint16 | int32/int32/fp32 |
+vmadotus | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32 
+
+ .2+^.|Float | 
+vfmadot  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16 |
+vfwmadot | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp32 |
+|===
+
+....
+vmadot      vd,     vs1,    vs2
+vmadotu     vd,     vs1,    vs2
+vmadotsu    vd,     vs1,    vs2
+vmadotus    vd,
+....
+
+
+=== Sliding-window dot-product matrix multiply-accumulate (MAC) instructions
+
+The sliding-window dot-product matrix multiply-accumulate instruction can select specified values from two consecutive registers, VS1 and VS1+1. Depending on the data type of the input values, it is also divided into integer and floating-point types. During MAC computation, the arrangement of input and output data in the registers is as follows: with copy set to 1, input A will be selected from VS1 and VS1+1 (the index of VS1 must be even), and the selected elements will be treated as an MxK matrix. Input B is placed in VS2, with elements treated as a KxN matrix. The result C will be placed in two consecutive registers (the index of VD(L) must be even), with elements treated as an MxN matrix. For example, with VLEN=256 and SEW=8, the arrangement would be as illustrated in the following diagram:
+
+image:slide-window-0.png[slide-window-0.png]
+Elements of A are selected from a 2MxK matrix formed by combining VS1 and VS1+1, starting from the 0th row, and corresponding elements are selected through a specified slide value. As illustrated above, with a slide value of 1, the blue frame slides down (1*k) elements. The resulting values form an MxK matrix, which serves as input matrix A for the matrix multiply-accumulate calculation.
+
+In the case where copy is set to 2, input A is placed in VS1 and VS1+1 (the index of VS1 must be even), and the elements from VS1 and VS1+1 are treated as two MxK matrices. Input B is placed in VS2, with its elements viewed as two KxN matrices. The result C consists of two MxN matrices, each stored in two consecutive registers (the index of VD(L) must be even). As an example, with VLEN=512 and SEW=8, the arrangement would be as shown in the following diagram:
+
+image:slide-window-1.png[slide-window-1.png]
+
+The elements in VS1 and VS1+1 can be considered as two MxK matrices, L and H, which are further treated as two 2MxK matrices. Then, in the same manner as with copy=1, starting from the 0th row, corresponding elements are selected using a specified slide value. As illustrated previously, with a slide value of 1, the blue frame slides down by (1*k) elements. The values obtained from the slide are two MxK matrices, which serve as input matrices A for the matrix multiply-accumulate computation.
+
+Sliding-window dot-product matrix multiply-accumulate instructions also take matrix A and matrix B as input, and put the accumulate the multiplication result of A and B to C.
+
+* shape of A: M rows, K columns [x Copies]
+* shape of B: K rows, N columns [x Copies]
+* shape of C: M rows, N columns [x Copies]
+
+The function description:
+....
+Copies=(sqrt(VLEN/64) == floor(sqrt(VLEN/64)) ? 1 : 2)
+for (cp = 0; cp < Copies; cp++) {
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < N; j ++) {
+            for (k = 0; k < K; k++) {
+                C[cp * M * N + i * N + j] +=
+                    A[cp * M * K + slide * K + i * N + k] * B[cp * K *N + k * N + j];
+                }
+             }
+         }
+     }
+ }
+....
+
+[width="100%",cols="2,2,3,3,3",options="header",]
+|===
+|category | instructions | Operand Type A | Operand Type B | Accumulator Type C .4+^.|
+Int | 
+vmadot1   | int4/int8/int16 | int4/int8/int16 | int32/int32/fp32 |  
+vmadot1u  | uint4/uint8/uint16 | uint4/uint8/uint16 | int32/int32/fp32 |  
+vmadot1su | int4/int8/int16 | uint4/uint8/uint16 | int32/int32/fp32 |
+vmadot1us | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32 
+
+ .2+^.|Float | 
+vfmadot1  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16 |
+vfwmadot1 | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp32 |
+|===
+
+[width="100%",cols="2,2,3,3,3",options="header",]
+|===
+|category | instructions | Operand Type A | Operand Type B | Accumulator Type C .4+^.|
+Int | 
+vmadot2   | int4/int8/int16 | int4/int8/int16 | int32/int32/fp32 |  
+vmadot2u  | uint4/uint8/uint16 | uint4/uint8/uint16 | int32/int32/fp32 |  
+vmadot2su | int4/int8/int16 | uint4/uint8/uint16 | int32/int32/fp32 |
+vmadot2us | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32 
+
+ .2+^.|Float | 
+vfmadot2  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16 |
+vfwmadot2 | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp32 |
+|===
+
+[width="100%",cols="2,2,3,3,3",options="header",]
+|===
+|category | instructions | Operand Type A | Operand Type B | Accumulator Type C .4+^.|
+Int | 
+vmadot3   | int4/int8/int16 | int4/int8/int16 | int32/int32/fp32 |  
+vmadot3u  | uint4/uint8/uint16 | uint4/uint8/uint16 | int32/int32/fp32 |  
+vmadot3su | int4/int8/int16 | uint4/uint8/uint16 | int32/int32/fp32 |
+vmadot3us | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32 
+
+ .2+^.|Float | 
+vfmadot3  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16 |
+vfwmadot3 | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp32 |
+|===
+
+[width="100%",cols="2,2,3,3,3",options="header",]
+|===
+|category | instructions | Operand Type A | Operand Type B | Accumulator Type C .4+^.|
+Int | 
+vmadotn   | int4/int8/int16 | int4/int8/int16 | int32/int32/fp32 |  
+vmadotnu  | uint4/uint8/uint16 | uint4/uint8/uint16 | int32/int32/fp32 |  
+vmadotnsu | int4/int8/int16 | uint4/uint8/uint16 | int32/int32/fp32 |
+vmadotnus | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32 
+
+ .2+^.|Float | 
+vfmadotn  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16 |
+vfwmadotn | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp32 |
+|===
+

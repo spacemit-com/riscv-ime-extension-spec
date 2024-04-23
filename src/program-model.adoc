@@ -1,0 +1,31 @@
+[[program]]
+== Programmer’s Model
+
+This extension is based on the standard RISCV vector registers and does not add any state control registers, ensuring that the programming model stays as close as possible to the standard RVV programming approach. It includes the usage of rounding modes, configuration instructions such as vsetvli/vsetivli/vsetvl, etc. Unlike the standard RISCV Vector 1.0, the matrix extension instructions will select the corresponding MAC array based on the vl and sew values obtained from the configuration instructions, rather than the number of elements used for computation and their data types.
+
+NOTE: The AI extension instructions only support cases where LMUL is less than or equal to 1.
+
+The MAC (M*N*K[x Copies]) arrays corresponding to different vlen and sew are as follows:
+
+//[width="90%",cols="2,2,3,5,align="center",options="header"]
+|===
+|VGPR.LEN |128 |256 |512 |1024 |2048 |4096
+|sew=4  |2x2x8[x2] |4x4x16 |4x4x16[x2] |8x8x32  |8x8x32[x2] |16x16x64
+|sew=8  |2x2x4[x2] |4x4x8  |4x4x8[x2]  |8x8x16  |8x8x16[x2] |16x16x32
+|sew=16 |2x2x2[x2] |4x4x4  |4x4x4[x2]  |8x8x8   |8x8x8[x2]  |16x16x16
+|===
+
+TIP: "Copy" in [] refers to the number of copies of the MAC array.
+
+----
+Example of choise of MAC array:
+
+let vlen = 1024, then:
+
+ vsetvli t0, x0, e8, m1, ta, ma   # 
+
+ li      t0, 256
+ vsetvli t0, t0, e8, m1, ta, ma   # 
+----
+
+NOTE: When the mac array chosen is not support, an illegal instruction will occur during execution.

@@ -1,0 +1,13 @@
+[[format]]
+== Instruction fromat
+
+image:wavedrom-vmadot.png[wavedrom-vmadot.png]
+image:wavedrom-vmadot1.png[wavedrom-vmadot1.png]
+image:wavedrom-vmadot2.png[wavedrom-vmadot2.png]
+image:wavedrom-vmadot3.png[wavedrom-vmadot3.png]
+image:wavedrom-vmadotn.png[wavedrom-vmadotn.png]
+image:wavedrom-vfmadot.png[wavedrom-vmadot.png]
+image:wavedrom-vfmadot123.png[wavedrom-vmadot123.png]
+image:wavedrom-vfmadotn.png[wavedrom-vfmadotn.png]
+
+
