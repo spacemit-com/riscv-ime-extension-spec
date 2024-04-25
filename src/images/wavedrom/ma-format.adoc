@@ -1,0 +1,171 @@
+Formats for Vector Arithmetic Instructions under OP-V major opcode
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['UU, SS', 'SU, US']},
+    {bits: 5,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPMMA'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['UU, SS', 'SU, US']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPMMA-1'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['UU, SS', 'SU, US']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPMMA-2'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['UU, SS', 'SU, US']},
+    {bits: 1,  name: '1',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPMMA-3'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['UI-UI, SI-SI', 'SI-UI, UI-SI']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '0',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPMMA-n'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ''},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPFMMA'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['slide: 1']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPFMMA-1'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['slide: 2']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPFMMA-2'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['slide: 3']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '1',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPFMMA-3'}
+ ]
+}
+....
+
+[wavedrom,,svg]
+....
+{
+  reg: [
+    {bits: 7,  name: 'Custom-1',  attr: 'IME', type:7},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vd',        attr: '', type: 2},
+    {bits: 3,  name: 'func3',     attr: ['slide: n']},
+    {bits: 1,  name: '0',        attr: '', type: 8},
+    {bits: 4,  name: 'vs1',       attr: '', type: 4},
+    {bits: 5,  name: 'vs2',       attr: '', type: 4},
+    {bits: 1,  name: '0',         attr: '', type: 3},
+    {bits: 6,  name: 'func7',     attr: 'OPFMMA-n'}
+ ]
+}
+....
+
