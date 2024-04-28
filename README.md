@@ -1,32 +1,40 @@
-# RISC-V Instruction Set Manual
+# RISC-V IME set Specification
 
-[![RISC-V ISA Build](https://github.com/riscv/riscv-isa-manual/actions/workflows/isa-build.yml/badge.svg)](https://github.com/riscv/riscv-isa-manual/actions/workflows/isa-build.yml)
+## Introduction
+This is a matrix extension proposal under the RISC-V IME extension standard. It has the following features.
 
-This repository contains the source files for the RISC-V Instruction Set Manual, which consists of the Privileged RISC-V Instruction Set Manual (LaTeX) and the Unprivileged RISC-V Instruction Set Manual (AsciiDoc). The preface of each document indicates the version of each standard that has been formally ratified by RISC-V International.
+* Low lost
+    - Reuse the vector registers and the related CSRs.
 
-This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). See the [LICENSE](LICENSE) file for details.
+* Compatibility
+    - Support VLEN of vector registers from 128 bit to 4096 bit
+    - Almost binary portability
 
-The RISC-V Instruction Set Manual is organized into the following volumes:
+* Rich data types
+    - Integer int4/int8/int16
+    - float fp4/fp8/fp16/bf16
 
-- Volume I: User-Level ISA
-- Volume II: Privileged Architecture
+## Build
+This project is built using AsciiDoctor (Ruby). You can build by using the Docker Image, [RISC-V Docs Base Container Image repository](https://github.com/riscv/riscv-docs-base-container-image).
 
-## Official and Draft Versions
+You can build like this:
 
-- **Official versions** of the specifications are available at the [RISC-V International website](https://riscv.org/specifications/).
-- **Compiled versions of the most recent drafts** of the specifications can be found on the [GitHub releases page](https://github.com/riscv/riscv-isa-manual/releases/latest).
-- **Older official versions** of the specifications are archived at the [GitHub releases archive](https://github.com/riscv/riscv-isa-manual/releases/tag/archive).
+```
+# pull the docker
+docker pull riscvintl/riscv-docs-base-container-image:latest
 
-The canonical list of **open-source RISC-V implementations' marchid CSR values** is available in the [marchid.md file](https://github.com/riscv/riscv-isa-manual/blob/main/marchid.md).
+# clone this project
+
+# run the container
+docker run -it -v $(pwd)/riscv-isa-manual:/build riscvintl/riscv-docs-base-container-image:latest /bin/bash
+
+# within the container
+cd ./build
+make
+```
 
 ## Contributing
-
 If you would like to contribute to this documentation, please refer to the [Documentation Developer's Guide](https://github.com/riscv/docs-dev-guide).
 
-The recommended method for building the PDF files is to use the Docker Image, as described in the [RISC-V Docs Base Container Image repository](https://github.com/riscv/riscv-docs-base-container-image).
-
-Alternative build methods, such as local builds and GitHub Action builds, are also available and described in the Documentation Developer's Guide.
-
-## Repo Activity
-
-![Alt](https://repobeats.axiom.co/api/embed/ccec87dc4502f2ed7c216b670b5ed8efc33a1d4c.svg "Repobeats analytics image")
+## Acknowledgement
+This project refers to[riscv-isa-manual](https://github.com/riscv/riscv-isa-manual) and [riscv-matrix-extension-spec](https://github.com/T-head-Semi/riscv-matrix-extension-spec?tab=readme-ov-file). Thanks a lot.

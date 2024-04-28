@@ -1,5 +1,5 @@
-:description: Multiplication and 
-:company: SpaceMIT
+:description: Multiplication and convolution instruction spec
+:company: SpacemiT
 :revnumber: 20240422
 //:revremark: Pre-release version
 //development: assume everything can change
@@ -8,8 +8,8 @@
 //ratified: you can implement this and be assured nothing will change. if something needs to change due to an errata or enhancement, it will come out in a new extension. we do not revise extensions.
 :url-riscv: http://riscv.org
 :doctype: book
-//:pdf-theme: ../src/resources/themes/riscv-spec.yml
-//:pdf-fontsdir: ../src/resources/fonts/
+:pdf-theme: ../src/resources/themes/riscv-spec.yml
+:pdf-fontsdir: ../src/resources/fonts/
 :preface-title: Preamble
 :colophon:
 :appendix-caption: Appendix
@@ -35,9 +35,9 @@
 :toc: left
 :toclevels: 4 
 :source-highlighter: pygments
-//ifdef::backend-pdf[]
-//:source-highlighter: rouge
-//endif::[]
+ifdef::backend-pdf[]
+:source-highlighter: rouge
+endif::[]
 :table-caption: Table
 :figure-caption: Figure
 :xrefstyle: short 
@@ -55,14 +55,13 @@
 :inf: &#8734;
 
 = The RISC-V IME Set Specification
+SpacemiT
 
 // Preamble
 [WARNING]
 .This document is in the link:http://riscv.org/spec-state[Development state]
 
-Assume everything can change. This draft specification will change before
-being accepted as standard, so implementations made to this draft
-specification will likely not conform to the future standard.
+Assume everything can change, before being accepted as standard.
 
 [preface]
 == Copyright and license information
@@ -71,7 +70,7 @@ Attribution 4.0 International License (CC-BY 4.0). The full
 license text is available at
 https://creativecommons.org/licenses/by/4.0/.
 
-Copyright 2024 by SpaceMIT.
+Copyright 2024 by SpacemiT.
 //[%hardbreaks]
 
 include::intro.adoc[]
