@@ -17,7 +17,7 @@ At this time, assume the max MAC unit (4x4x8) has been implemented. Then the inp
 
 image:int-matrix-multiply-1.png[int-matrix-multiply-1.png]
 
-Input data is stored in VS1 and VS1+1 (the index of VS1 must be even), and the elements of matrix A are sliding-packing from the two (2*4,8) matrices int VS1 and VS1+1. Input B is placed in VS2, with its elements viewed as two (8,4) matrices. The result C consists of two (M,N) matrices, they are stored in two sequential registers (the index of VD(L) must be even).
+Input data is stored in VS1 and VS1+1 (the index of VS1 must be even), and the elements of matrix A are sliding-packing from the two (2*4,8) matrices in VS1 and VS1+1. Input B is placed in VS2, with its elements viewed as two (8,4) matrices. The result C consists of two (M,N) matrices, they are stored in two sequential registers (the index of VD(L) must be even).
 
 The integer dot-product matrix multiply-accumulate instructions take matrix A and matrix B as input, and accumulate the multiplication result of A and B into C.
 
@@ -58,7 +58,7 @@ vmadotus | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32
 And the usage of the instructions:
 
 ....
-# vs1 refers to intput A, vs2 refers to Input B, and vd refers to output C.
+# vs1 refers to input A, vs2 refers to input B, and vd refers to output C.
 
 vmadot      vd,     vs1,    vs2
 vmadotu     vd,     vs1,    vs2
@@ -79,7 +79,7 @@ At this time, assume the max MAC unit (4x4x8) has been implemented. Then the inp
 
 image:float-matrix-multiply-1.png[float-matrix-multiply-1.png]
 
-Input data is stored in VS1 and VS1+1 (the index of VS1 must be even), and the elements of matrix A are sliding-packing from the two (2*4,8) matrices int VS1 and VS1+1. Input B is stored in VS2, with its elements considered as two (8,4) matrices. The result C consists of two (M,N) matrices, they are stored in one registers.
+Input data is stored in VS1 and VS1+1 (the index of VS1 must be even), and the elements of matrix A are sliding-packing from the two (2*4,8) matrices in VS1 and VS1+1. Input B is stored in VS2, with its elements considered as two (8,4) matrices. The result C consists of two (M,N) matrices, they are stored in one registers.
 
 The floating point dot-product matrix multiply-accumulate instructions take matrix A and matrix B as input, and accumulate the multiplication result of A and B into C.
 
@@ -118,7 +118,7 @@ vfmadot  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bfp16
 And the usage of the instructions:
 
 ....
-# vs1 refers to intput A, vs2 refers to Input B, and vd refers to output C.
+# vs1 refers to input A, vs2 refers to input B, and vd refers to output C.
 
 vfmadot     vd,     vs1,    vs2
 ....
@@ -198,7 +198,7 @@ vmadotnus | uint4/uint8/uint16 | int4/int8/int16 | int32/int32/fp32
 And the usage of the instructions:
 
 ....
-# vs1 refers to intput A, vs2 refers to Input B, and vd refers to output C.
+# vs1 refers to input A, vs2 refers to input B, and vd refers to output C.
 
 # slide 1
 vmadot1      vd,     vs1,    vs2
@@ -280,7 +280,7 @@ slide-n |vfmadotn  | fp4/fp8/fp16/bfp16 | fp4/fp8/fp16/bfp16 | fp16/fp16/fp16/bf
 And the usage of the instructions:
 
 ....
-# vs1 refers to intput A, vs2 refers to Input B, and vd refers to output C.
+# vs1 refers to input A, vs2 refers to input B, and vd refers to output C.
 
 # slide 1
 vfmadot1      vd,     vs1,    vs2
