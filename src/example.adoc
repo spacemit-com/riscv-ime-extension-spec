@@ -1,9 +1,9 @@
 [[example]]
 == Example of convolution compute
 
-By using dot-product matrix multiply-accumulate instructions and sliding-window dot-product matrix multiply-accumulate instructions, we can accelerate the computation of 2D convolution. Given an input feature map size of 1x3x8x8(NHWC), kernel size of 3x3, with stride = 1, padding = 0, and an output channel number = 4, the size of the output feature map will be 1x4x6x6(HWC).
+The computation of 2D convolution can be accelerated by utilising dot-product matrix multiply-accumulate instructions and sliding-window dot-product matrix multiply-accumulate instructions. Giving an input feature map size of 1x3x8x8(NHWC), kernel size of 3x3, with stride = 1, padding = 0, and an output channel number = 4, the size of the output feature map will be 1x4x6x6(HWC).
 
-The compute shown in the following 3 figures can be done , by Using the following three instructions. Each time, the value stored in the current VD vector register will be accumulated with the value obtained from this matrix multiplication.
+The compute shown in the following 3 figures can be performed, by employing the following three instructions. Each time, the value stored in the current VD vector register will be accumulated with the value obtained from this matrix multiplication.
 
 ....
 vmadot     vd, vs1, vs2

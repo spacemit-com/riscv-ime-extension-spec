@@ -1,7 +1,7 @@
 [[program]]
 == Programmer’s Model
 
-This extension is based on the standard RISCV vector registers and does not add any state control registers and matrix registers, ensuring that the programming model stays as close as possible to the standard RVV programming model. It includes the usage of rounding modes, configuration instructions such as vsetvli/vsetivli/vsetvl, etc. Unlike the standard RISCV Vector 1.0, the matrix extension instructions will select the corresponding matrix multiply and accumulate (MAC) unit based on the vl and SEW values obtained from the configuration instructions.
+This extension is based on the standard RISCV vector registers and does not add any state control registers and matrix registers, ensuring that the programming model remains as similar as possible to the standard RVV programming model. It includes the usage of rounding modes, configuration instructions such as vsetvli/vsetivli/vsetvl, etc. Unlike the standard RISCV Vector 1.0, the matrix extension instructions will select the corresponding matrix multiply and accumulate (MAC) unit based on the vl and SEW values obtained from the configuration instructions.
 
 NOTE: This extension instructions only support cases where LMUL is less than or equal to 1.
 

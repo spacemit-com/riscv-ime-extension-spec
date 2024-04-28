@@ -1,6 +1,6 @@
-Formats for matrix extention instructions under OPMMA and OPFMMA major opcode
+Formats for matrix extention instructions is under OPMMA and OPFMMA major opcode
 
-For integr extension, the func3 field is used to distinguish the difference of input data type. UU indicates unsigned integer multiply with unsigned integer, US indicates unsigned integer multiply with signed integer, SU indicates signed integer multiply with unsigned integer, SS indicates signed integer multiply with signed integer.
+For integr extension, the func3 field is used to distinguish the difference of input data type. UU denotes unsigned integer multiply with unsigned integer, US represents unsigned integer multiply with signed integer, SU indicates signed integer multiply with unsigned integer, SS signifies signed integer multiply with signed integer.
 [wavedrom,,svg]
 ....
 {
