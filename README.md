@@ -20,18 +20,23 @@ This project is built using AsciiDoctor (Ruby). You can build by using the Docke
 You can build like this:
 
 ```
+# clone this project
+https://github.com/spacemit-com/riscv-ime-extension-spec.git
+
 # pull the docker
 docker pull riscvintl/riscv-docs-base-container-image:latest
 
-# clone this project
-
 # run the container
-docker run -it -v $(pwd)/riscv-isa-manual:/build riscvintl/riscv-docs-base-container-image:latest /bin/bash
+docker run -it -v $(pwd)/riscv-ime-extension-spec:/build riscvintl/riscv-docs-base-container-image:latest /bin/bash
 
 # within the container
 cd ./build
 make
 ```
+
+## Official Version
+- **Official versions** of the specifications are available at the [github release page](https://github.com/spacemit-com/riscv-ime-extension-spec/releases)
+
 
 ## Contributing
 If you would like to contribute to this documentation, please refer to the [Documentation Developer's Guide](https://github.com/riscv/docs-dev-guide).
